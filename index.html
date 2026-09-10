@@ -127,15 +127,17 @@ h1,h2,h3,.ps{font-family:'Press Start 2P',ui-monospace,monospace;font-weight:400
 .wm span{display:inline-block}
 .wm i{position:absolute;inset:0;color:transparent;-webkit-text-stroke:2px rgba(255,74,53,.55);
   transform:translate(-3px,0);mix-blend-mode:screen;opacity:.55;font-style:normal;text-shadow:none;pointer-events:none}
-.tagline{margin:12px auto 0;max-width:34ch;color:#ffffff;font-size:clamp(22px,2.7vw,36px);line-height:1.1;letter-spacing:.02em}
+.tagline{margin:12px auto 0;max-width:44ch;color:#ffffff;font-size:clamp(22px,2.7vw,36px);line-height:1.1;letter-spacing:.02em}
 .tagline em{font-style:normal;color:var(--lime)}
 .stats{margin-top:12px;display:flex;flex-wrap:wrap;gap:0 18px;justify-content:center;font-size:clamp(15px,1.5vw,18px);
   color:#bdd6e6;letter-spacing:.08em}
 .stats b{color:var(--lime);font-weight:400}
 .stats span{white-space:nowrap}
-.plain{margin:9px auto 0;max-width:56ch;color:#cfe4f2;font-size:clamp(15px,1.5vw,19px)}
+.plain{margin:10px auto 0;max-width:58ch;color:#cfe4f2;font-size:clamp(16px,1.6vw,21px);line-height:1.28}
+.plain .ln{display:block}
+.plain .punch{color:var(--lime);margin-top:5px}
 
-.dogwrap{position:relative;margin-top:clamp(6px,1.4vh,16px);height:clamp(200px,calc(100svh - 505px),430px);aspect-ratio:424/760;width:auto;cursor:pointer;user-select:none}
+.dogwrap{position:relative;margin-top:clamp(6px,1.4vh,16px);height:clamp(200px,calc(100svh - 560px),430px);aspect-ratio:424/760;width:auto;cursor:pointer;user-select:none}
 .dogwrap:before{content:"";position:absolute;left:50%;bottom:-2%;width:78%;height:9%;transform:translateX(-50%);
   background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.55),transparent 70%);filter:blur(4px)}
 #dog{height:100%;width:auto;image-rendering:auto;
@@ -341,14 +343,15 @@ footer b{color:var(--dim);font-weight:400}
   .hero-tick .tick{font-size:11px;padding:10px 13px 9px}
   .tagline{font-size:clamp(19px,2.1vw,26px);margin-top:6px}
   .plain{font-size:15px;margin-top:5px;max-width:64ch}
-  .dogwrap{height:clamp(140px,calc(100svh - 415px),380px);margin-top:2px}
+  .dogwrap{height:clamp(140px,calc(100svh - 470px),380px);margin-top:2px}
   .stats{margin-top:6px;font-size:15px}
   #hero{padding-bottom:18px}
   .stage{gap:10px}
 }
 @media (min-width:901px) and (max-height:620px){
-  .plain{display:none}
-  .dogwrap{height:clamp(120px,calc(100svh - 360px),300px)}
+  .plain .ln{display:inline}.plain .ln+.ln:before{content:' '}.plain .punch{margin-top:0}
+  .plain{max-width:74ch}
+  .dogwrap{height:clamp(120px,calc(100svh - 400px),300px)}
   .tagline{font-size:20px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -377,8 +380,8 @@ footer b{color:var(--dim);font-weight:400}
     <div class="left">
       <div class="hero-tick"><span class="tick"><i>$</i>LOWINU</span></div>
       <h1 class="wm"><i aria-hidden="true">LOWINU</i><span>L</span><span>O</span><span>W</span><span>I</span><span>N</span><span>U</span></h1>
-      <div class="tagline">a dog the studio <em>never finished</em>. he shipped anyway.</div>
-      <div class="plain">214 polygons, two enormous eyes, and a draw distance of exactly two meters. past that there is only fog.</div>
+      <div class="tagline">The <em>lowest-spec</em> dog ever created.</div>
+      <div class="plain"><span class="ln">They started rendering him from the head down.</span><span class="ln">RAM ran out after two legs.</span><span class="ln">No body. No updates. No roadmap.</span><span class="ln punch">Still runs.</span></div>
 
       <div class="dogwrap" id="dogwrap" title="poke the dog">
         <img id="dog" src="lowinu.webp" alt="lowinu standing in the fog, waiting for a second pass that never shipped">
@@ -433,6 +436,29 @@ footer b{color:var(--dim);font-weight:400}
   <a class="btn" href="https://dexscreener.com" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M3 19h18v2H3v-2zm2-6h3v5H5v-5zm5-5h3v10h-3V8zm5-5h3v15h-3V3z"/></svg>CHART</a>
 </div>
 
+<!-- ===== LOD VIEWER ===== -->
+<section>
+  <div class="wrap">
+    <h2 class="kick">LEVEL OF DETAIL<small>drag the slider. he gets worse. he stays exactly as confident.</small></h2>
+    <div class="lod">
+      <div class="lodbox">
+        <div class="lodhud">LOD <b id="lodn">0</b> · <b id="lodpx">424×760</b></div>
+        <canvas id="lodcv" width="424" height="620"></canvas>
+      </div>
+      <div>
+        <div class="lodcap" id="lodcap"></div>
+        <div class="track" id="ltrack" style="margin-top:18px;height:18px"><i style="width:8%"></i><u style="left:8%"></u></div>
+        <div class="ticks"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+        <div class="lodnums">
+          <div>TRIANGLES <b id="lodtri">214</b></div>
+          <div>TEXTURE <b id="lodtex">64px</b></div>
+          <div>VISIBLE FROM <b id="loddist">2m</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== MARQUEE ===== -->
 <div class="mq"><div id="mqline"></div></div>
 
@@ -466,29 +492,6 @@ footer b{color:var(--dim);font-weight:400}
         <tr><td>FRAMERATE</td><td>24 on a good day</td><td>24 on a good day</td></tr>
         <tr><td>TICKER</td><td>$LOWINU</td><td>$LOWINU, there is only the one</td></tr>
       </table>
-    </div>
-  </div>
-</section>
-
-<!-- ===== LOD VIEWER ===== -->
-<section>
-  <div class="wrap">
-    <h2 class="kick">LEVEL OF DETAIL<small>drag the slider. he gets worse. he stays exactly as confident.</small></h2>
-    <div class="lod">
-      <div class="lodbox">
-        <div class="lodhud">LOD <b id="lodn">0</b> · <b id="lodpx">424×760</b></div>
-        <canvas id="lodcv" width="424" height="620"></canvas>
-      </div>
-      <div>
-        <div class="lodcap" id="lodcap"></div>
-        <div class="track" id="ltrack" style="margin-top:18px;height:18px"><i style="width:8%"></i><u style="left:8%"></u></div>
-        <div class="ticks"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
-        <div class="lodnums">
-          <div>TRIANGLES <b id="lodtri">214</b></div>
-          <div>TEXTURE <b id="lodtex">64px</b></div>
-          <div>VISIBLE FROM <b id="loddist">2m</b></div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
