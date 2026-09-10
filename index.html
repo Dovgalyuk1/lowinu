@@ -23,19 +23,19 @@ window.DEX      = "";   /* ссылка на график */
 
 <style>
 :root{
-  --bg:#070d16;
-  --deep:#0b1626;
-  --panel:#0e1c2c;
-  --fog:#7f9bb2;
-  --fog2:#4c6a86;
-  --ui:#d6e9f5;
-  --dim:#7f9ab0;
-  --lime:#b6f24a;
-  --lime-d:#6f9b22;
-  --amber:#ffb03d;
-  --red:#ff4a35;
-  --ink:#03070d;
-  --line:rgba(182,242,74,.24);
+  --bg:#132a44;
+  --deep:#1a3a5c;
+  --panel:#1d4166;
+  --fog:#a8c8de;
+  --fog2:#6f9ab8;
+  --ui:#f2fbff;
+  --dim:#a8c4d8;
+  --lime:#cfff5a;
+  --lime-d:#8ec42a;
+  --amber:#ffc94d;
+  --red:#ff6a52;
+  --ink:#08131f;
+  --line:rgba(207,255,90,.34);
   --rd:0;               /* render distance 0..1 — управляет туманом */
   --pix:1;
 }
@@ -53,10 +53,10 @@ h1,h2,h3,.ps{font-family:'Press Start 2P',ui-monospace,monospace;font-weight:400
 
 /* ===== плёнки ===== */
 .film{position:fixed;inset:0;pointer-events:none;z-index:120}
-.scan{background:repeating-linear-gradient(rgba(0,0,0,.16) 0 1px,transparent 1px 3px);opacity:.34}
-.grain{background-image:radial-gradient(rgba(255,255,255,.55) .5px,transparent .6px);background-size:3px 3px;mix-blend-mode:overlay;opacity:.06}
-.vign{background:radial-gradient(ellipse at 50% 44%,#0000 44%,rgba(3,7,13,.82) 100%)}
-.roll{position:fixed;left:0;right:0;height:34%;background:linear-gradient(180deg,transparent,rgba(190,230,255,.055),transparent);animation:roll 7.5s linear infinite;pointer-events:none;z-index:121}
+.scan{background:repeating-linear-gradient(rgba(0,0,0,.11) 0 1px,transparent 1px 3px);opacity:.22}
+.grain{background-image:radial-gradient(rgba(255,255,255,.55) .5px,transparent .6px);background-size:3px 3px;mix-blend-mode:overlay;opacity:.04}
+.vign{background:radial-gradient(ellipse at 50% 44%,#0000 56%,rgba(8,19,31,.45) 100%)}
+.roll{position:fixed;left:0;right:0;height:34%;background:linear-gradient(180deg,transparent,rgba(210,240,255,.09),transparent);animation:roll 7.5s linear infinite;pointer-events:none;z-index:121}
 @keyframes roll{from{top:-40%}to{top:110%}}
 
 /* глобальный туман — плотность зависит от --rd */
@@ -89,21 +89,26 @@ h1,h2,h3,.ps{font-family:'Press Start 2P',ui-monospace,monospace;font-weight:400
 
 /* ===== мир ===== */
 .world{position:relative;overflow:hidden}
+.scenery{position:absolute;left:0;right:0;top:0;height:100svh;overflow:hidden;pointer-events:none;z-index:0}
 .sky{position:absolute;inset:0;background:
-   radial-gradient(120% 80% at 50% 88%,rgba(122,156,181,.42) 0%,rgba(60,88,112,.24) 34%,rgba(7,13,22,0) 70%),
-   linear-gradient(180deg,#060c15 0%,#0a1524 46%,#12283a 100%)}
+   linear-gradient(180deg,rgba(12,20,42,0) 50%,rgba(12,20,42,.55) 74%,rgba(9,15,33,.9) 100%),
+   radial-gradient(100% 58% at 50% 59%,rgba(255,198,124,.5) 0%,rgba(196,120,190,.26) 38%,rgba(20,31,61,0) 74%),
+   linear-gradient(180deg,#3d86c4 0%,#3573b0 26%,#2b5289 54%,#1d2f5c 78%,#131d3c 100%)}
+.horizon{position:absolute;left:0;right:0;bottom:38%;height:3px;
+  background:linear-gradient(90deg,transparent,rgba(255,222,160,.95),rgba(215,255,110,1),rgba(255,222,160,.95),transparent);
+  box-shadow:0 0 30px rgba(255,206,140,.85),0 0 80px rgba(207,255,90,.5);pointer-events:none}
 .grid{position:absolute;left:-40%;right:-40%;bottom:0;height:42%;
-  background-image:linear-gradient(rgba(182,242,74,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(182,242,74,.5) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(215,255,110,1) 1px,transparent 1px),linear-gradient(90deg,rgba(140,245,255,1) 1px,transparent 1px);
   background-size:76px 46px;transform:perspective(300px) rotateX(64deg);transform-origin:50% 100%;
   animation:gridrun 2.6s linear infinite;
   -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.35) 34%,#000 100%);
-  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.35) 34%,#000 100%);opacity:calc(.5 + var(--rd)*.45)}
+  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.45) 26%,#000 100%);opacity:calc(.9 + var(--rd)*.1)}
 @keyframes gridrun{to{background-position:0 46px}}
 .band{position:absolute;left:-20%;right:-20%;height:26vh;pointer-events:none;
-  background:radial-gradient(60% 50% at 50% 50%,rgba(150,180,200,.22),transparent 70%);
+  background:radial-gradient(60% 50% at 50% 50%,rgba(200,228,248,.17),transparent 70%);
   filter:blur(14px);animation:drift 28s linear infinite}
-.band.b2{top:44%;animation-duration:41s;animation-direction:reverse;opacity:.7}
-.band.b3{top:66%;animation-duration:34s;opacity:.55}
+.band.b2{top:40%;animation-duration:41s;animation-direction:reverse;opacity:.5}
+.band.b3{top:58%;animation-duration:34s;opacity:.28}
 @keyframes drift{from{transform:translateX(-14%)}to{transform:translateX(14%)}}
 
 /* ===== HERO ===== */
@@ -122,22 +127,24 @@ h1,h2,h3,.ps{font-family:'Press Start 2P',ui-monospace,monospace;font-weight:400
 .wm span{display:inline-block}
 .wm i{position:absolute;inset:0;color:transparent;-webkit-text-stroke:2px rgba(255,74,53,.55);
   transform:translate(-3px,0);mix-blend-mode:screen;opacity:.55;font-style:normal;text-shadow:none;pointer-events:none}
-.tagline{margin:12px auto 0;max-width:34ch;color:#eaf4fb;font-size:clamp(22px,2.7vw,36px);line-height:1.1;letter-spacing:.02em}
+.tagline{margin:12px auto 0;max-width:34ch;color:#ffffff;font-size:clamp(22px,2.7vw,36px);line-height:1.1;letter-spacing:.02em}
 .tagline em{font-style:normal;color:var(--lime)}
 .stats{margin-top:12px;display:flex;flex-wrap:wrap;gap:0 18px;justify-content:center;font-size:clamp(15px,1.5vw,18px);
-  color:#7f9ab0;letter-spacing:.08em}
+  color:#bdd6e6;letter-spacing:.08em}
 .stats b{color:var(--lime);font-weight:400}
 .stats span{white-space:nowrap}
-.plain{margin:9px auto 0;max-width:56ch;color:#a7c0d4;font-size:clamp(15px,1.5vw,19px)}
+.plain{margin:9px auto 0;max-width:56ch;color:#cfe4f2;font-size:clamp(15px,1.5vw,19px)}
 
 .dogwrap{position:relative;margin-top:clamp(6px,1.4vh,16px);height:clamp(200px,calc(100svh - 505px),430px);aspect-ratio:424/760;width:auto;cursor:pointer;user-select:none}
 .dogwrap:before{content:"";position:absolute;left:50%;bottom:-2%;width:78%;height:9%;transform:translateX(-50%);
   background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.55),transparent 70%);filter:blur(4px)}
-#dog{height:100%;width:auto;image-rendering:pixelated;filter:drop-shadow(0 10px 16px rgba(0,0,0,.5));
-  transform-origin:50% 92%;animation:idle 3.4s ease-in-out infinite;will-change:transform}
+#dog{height:100%;width:auto;image-rendering:auto;
+  transform-origin:50% 92%;animation:idle 3.4s ease-in-out infinite;backface-visibility:hidden}
+.dogwrap:after{content:"";position:absolute;left:50%;top:50%;width:96%;height:96%;transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse at 50% 50%,rgba(207,255,90,.22),transparent 66%);pointer-events:none;z-index:-1}
 @keyframes idle{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-9px) rotate(-.7deg)}}
-.dogwrap.hd #dog{filter:saturate(1.5) contrast(1.18) brightness(1.06) drop-shadow(0 0 26px rgba(182,242,74,.65)) drop-shadow(0 10px 16px rgba(0,0,0,.5));image-rendering:auto;transform:scale(1.06)}
-.dogwrap.blurred #dog{image-rendering:auto;filter:blur(1.6px) drop-shadow(0 10px 16px rgba(0,0,0,.5))}
+.dogwrap.hd #dog{filter:saturate(1.55) contrast(1.2) brightness(1.1) drop-shadow(0 0 30px rgba(207,255,90,.75));image-rendering:auto;transform:scale(1.06)}
+.dogwrap.blurred #dog{image-rendering:auto;filter:blur(1.6px)}
 .dogwrap.ghost #dog{opacity:.22;filter:brightness(2.4) saturate(0)}
 .eyes{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .12s}
 .dogwrap.ghost .eyes{opacity:1}
@@ -321,6 +328,9 @@ footer b{color:var(--dim);font-weight:400}
   .stage{grid-template-columns:1fr;gap:18px;padding-top:8px}
   .opts{order:2}
   .dogwrap{width:min(62vw,300px)}
+  .wm i{display:none}
+  .hudgame{opacity:.94;padding:8px 10px}
+  .opts{padding-bottom:64px}
   .lod{grid-template-columns:1fr}
   .topbar{font-size:13px;letter-spacing:.03em}
   .hudgame{right:8px;bottom:8px;font-size:14px}
@@ -346,28 +356,12 @@ footer b{color:var(--dim);font-weight:400}
 </head>
 <body>
 
-<!-- ===== GATE ===== -->
-<div id="gate"><div class="g">
-  <div class="lg">LOWINU</div>
-  <div class="sub">a dog the studio never finished rendering</div>
-  <div class="st">PRESS START</div>
-  <div><span class="gtick"><i>$</i>LOWINU</span></div>
-  <div class="tiny">SOUND: ON · CD-ROM DRIVE DETECTED</div>
-</div></div>
-
-<!-- ===== PRELOADER ===== -->
-<div id="pre">
-  <div class="big">LOADING LOWINU</div>
-  <div class="log" id="prelog"></div>
-  <div class="bar"><i id="prebar"></i></div>
-  <div class="poly" id="prepoly">POLYGONS: 12000</div>
-  <div id="skip">SKIP</div>
-</div>
-
 <!-- ===== HERO ===== -->
 <section id="hero" class="world">
-  <div class="sky"></div><div class="grid"></div>
-  <div class="band"></div><div class="band b2"></div><div class="band b3"></div>
+  <div class="scenery">
+    <div class="sky"></div><div class="horizon"></div><div class="grid"></div>
+    <div class="band"></div><div class="band b2"></div><div class="band b3"></div>
+  </div>
 
   <div class="far">
     <div>there is a bench out here. <em>nobody modelled the bench.</em></div>
@@ -639,50 +633,25 @@ function music(on){
   if(on) musicTimer=setInterval(function(){ if(!document.hidden) tick(); },230);
 }
 
-/* ---------- GATE + PRELOADER ---------- */
-var gate=$('#gate'), pre=$('#pre'), prelog=$('#prelog'), prebar=$('#prebar'), prepoly=$('#prepoly');
-var LOG=['booting disc…','mounting LOWINU.BIN','dropping mipmaps…','dropping specular…','shadows: disabled',
-         'texture filter: off','fog: on (cannot be disabled)','render distance: 2.0 m','polygons: reduced to 214',
-         'eyes: preserved at full quality','ready.'];
-var started=false;
-function start(){
-  if(started) return; started=true;
-  gate.style.display='none'; pre.classList.add('on');
-  ensure(); music(true); blip(392,'square',.14);
-  var i=0,p=12000;
-  var iv=setInterval(function(){
-    if(i<LOG.length){
-      prelog.innerHTML+= (i===LOG.length-1?'<b>':'') + '> '+LOG[i] + (i===LOG.length-1?'</b>':'') + '<br>';
-      prelog.scrollTop=99999; blip(180+i*22,'square',.05,.035);
-    }
-    p=Math.max(214, Math.round(p*0.62 - 40));
-    prepoly.textContent='POLYGONS: '+p;
-    prebar.style.width=Math.min(100,(i+1)/LOG.length*100)+'%';
-    i++;
-    if(i>LOG.length){ clearInterval(iv); done(); }
-  },420);
-  setTimeout(done,7000); /* предохранитель */
+/* ---------- сайт открывается сразу, без гейта ---------- */
+/* звук по браузерным правилам стартует с первого жеста пользователя */
+var audioArmed=false;
+function armAudio(){
+  if(audioArmed) return; audioArmed=true;
+  ensure(); music(true); blip(523,'square',.14);
+  setTimeout(function(){blip(784,'square',.16)},130);
 }
-var doneFlag=false;
-function done(){
-  if(doneFlag) return; doneFlag=true;
-  pre.classList.remove('on'); blip(523,'square',.16); setTimeout(function(){blip(784,'square',.2)},130);
-  spawnLoop();
-}
-gate.addEventListener('click',start);
-document.addEventListener('keydown',function(e){ if(!started){start()} });
-$('#skip').addEventListener('click',function(e){e.stopPropagation();done()});
+['pointerdown','keydown','touchstart'].forEach(function(ev){
+  document.addEventListener(ev,armAudio,{passive:true});
+});
 
 /* ---------- PS1 vertex wobble ---------- */
 var dog=$('#dog'), wrap=$('#dogwrap');
 setInterval(function(){
   if(document.hidden) return;
-  var x=(Math.random()-.5)*0.7, y=(Math.random()-.5)*0.7, sk=(Math.random()-.5)*.22;
-  dog.style.setProperty('--wx',x+'px');
-  dog.style.filter='drop-shadow(0 10px 16px rgba(0,0,0,.5))';
+  var x=Math.round((Math.random()-.5)*2), y=Math.round((Math.random()-.5)*2);
   dog.style.translate=x+'px '+y+'px';
-  dog.style.rotate=sk+'deg';
-},190);
+},260);
 
 /* ---------- слайдеры ---------- */
 function slider(el,onDrag,onEnd){
@@ -1019,8 +988,11 @@ setInterval(function(){
 
 /* пауза музыки при уходе на другую вкладку */
 document.addEventListener('visibilitychange',function(){
-  if(document.hidden) music(false); else if(!muted && started) music(true);
+  if(document.hidden) music(false); else if(!muted && audioArmed) music(true);
 });
+
+/* мини-игра стартует сразу — сайт открывается без загрузки */
+spawnLoop();
 })();
 </script>
 </body>
